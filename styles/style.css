@@ -1,0 +1,36 @@
+body {
+    padding: 0;
+    text-align: center;
+  }
+
+  .game-intro {
+    float: center;
+    padding: 0% 10%;
+  }
+
+  .logo-pokemon {
+      width: 200px;
+  }
+
+  /*.battle-field {
+    float: center;
+    padding: 3% 0%;  
+  }*/
+
+
+
+  /*.field {
+    width: auto;
+    height: 800px;
+    
+  }*/
+
+  /*.pokemon1 //{
+    display: flex;
+    align-items: center;
+  }*/
+
+ /* .grey {
+    width: 10%;
+    height: 110px;
+  }*/
