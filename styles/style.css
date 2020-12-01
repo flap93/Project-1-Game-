@@ -18,6 +18,10 @@ body {
   }*/
 
 
+  #canvas {
+    width: 1400px;
+    height: 800px;
+  }
 
   /*.field {
     width: auto;

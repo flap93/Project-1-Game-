@@ -23,20 +23,20 @@
  const canvas = document.getElementById('canvas');
  const context = canvas.getContext('2d');
 
- let score = 0
+ 
 
  const field = {
-    x: 100,
-    y: 10,
-    width: 1600,
-    height: 800
+    x: 0,
+    y: 0,
+    width: canvas.width,
+    height: canvas.height
 }
 
 const fieldImg = new Image();
 fieldImg.src = './images/GROUND1.png';
-fieldImg.addEventListener('load', () => {
-    context.drawImage(fieldImg, field.x, field.y, field.width, field.height);
-});
+//fieldImg.addEventListener('load', () => {
+    //context.drawImage(fieldImg, field.x, field.y, field.width, field.height);
+//});
  
 
 
@@ -50,9 +50,9 @@ fieldImg.addEventListener('load', () => {
 
  const discImg = new Image();
  discImg.src = './images/disc.png';
- discImg.addEventListener('load', () => {
-     context.drawImage(discImg, disc.x, disc.y, disc.width, disc.height);
-});
+ //discImg.addEventListener('load', () => {
+    // context.drawImage(discImg, disc.x, disc.y, disc.width, disc.height);
+//});
 
 const pokemon1 = {
     x: 400,
@@ -83,8 +83,10 @@ pkmonImg.src = './images/groundon.png';
 // create some animation
 
 const drawEverything = () => {
+    context.drawImage(fieldImg, field.x, field.y, field.width, field.height);
     context.drawImage(pokemonImg, pokemon1.x, pokemon1.y, pokemon1.width, pokemon1.height);
     context.drawImage(pkmonImg, pokemon2.x, pokemon2.y, pokemon2.width, pokemon2.height);
+    context.drawImage(discImg, disc.x, disc.y, disc.width, disc.height);
 }
 
 
@@ -93,7 +95,7 @@ const drawEverything = () => {
 const drawingloop = () => {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    drawBackground();
+    
     drawEverything();
 
     requestAnimationFrame(drawingloop);
@@ -104,17 +106,31 @@ const drawingloop = () => {
 // movement of one player 
 
 document.addEventListener('keydown', event => {
-
+  console.log(event.code);
     switch(event.code){
-        case 'Arrowleft':
-            pokemon1.x -=10;
+        case 'ArrowLeft':
+            case 'keyA':
+            pokemon1.x -=20;
             break;
-            case 'Arrowright':
-                pokemon1.x +=10;
+            case 'ArrowRight':
+                case 'keyD':
+                pokemon1.x +=20;
                 break;
+                case 'ArrowUp':
+                    case 'KeyW':
+                    pokemon1.y -=20;
+                    break;
+                    case 'ArrowDown':
+                        case 'ArrowDown':
+                            pokemon1.y +=20;
     }
 });
 
 
+
+
+
+drawingloop();
+ 
  
  
