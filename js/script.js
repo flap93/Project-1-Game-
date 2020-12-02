@@ -42,11 +42,14 @@ fieldImg.src = './images/GROUND1.png';
 
 
  const disc = {
-     x: 700,
-     y: 300,
-     width: 90,
-     height: 90
- }
+   x: canvas.width/2,
+   y: canvas.height/2,
+   radius: 10
+}
+
+    
+     
+
 
  const discImg = new Image();
  discImg.src = './images/disc.png';
@@ -58,7 +61,8 @@ const pokemon1 = {
     x: 400,
     y: 250,
     width: 120,
-    height: 120
+    height: 120,
+    score: 0
 }
 
 const pokemonImg = new Image();
@@ -71,7 +75,8 @@ const pokemon2 = {
     x: 1100,
     y: 300,
     width: 120,
-    height: 120
+    height: 120,
+    score:0
 }
 
 const pkmonImg = new Image();
@@ -86,7 +91,7 @@ const drawEverything = () => {
     context.drawImage(fieldImg, field.x, field.y, field.width, field.height);
     context.drawImage(pokemonImg, pokemon1.x, pokemon1.y, pokemon1.width, pokemon1.height);
     context.drawImage(pkmonImg, pokemon2.x, pokemon2.y, pokemon2.width, pokemon2.height);
-    context.drawImage(discImg, disc.x, disc.y, disc.width, disc.height);
+    context.drawImage(discImg, disc.x, disc.y, disc.radius);
 }
 
 
@@ -97,7 +102,16 @@ const drawingloop = () => {
 
     
     drawEverything();
-
+     
+    /*disc.x -=4
+    if (disc.x < disc.width) {
+        disc.x = canvas.width;
+        disc.y = math.floor()
+    }*/
+    
+    
+    
+    
     requestAnimationFrame(drawingloop);
     
 };
@@ -109,20 +123,21 @@ document.addEventListener('keydown', event => {
   console.log(event.code);
     switch(event.code){
         case 'ArrowLeft':
-            case 'keyA':
-            pokemon1.x -=20;
+            case 'ArrowLeft':
+            if (pokemon1.x >= 15) pokemon1.x -=20;
             break;
             case 'ArrowRight':
-                case 'keyD':
-                pokemon1.x +=20;
+                case 'ArrowRight':
+                if (pokemon1.x <= 1400 - 120) pokemon1.x +=20;
                 break;
                 case 'ArrowUp':
-                    case 'KeyW':
+                    case 'ArrowUp':
                     pokemon1.y -=20;
                     break;
                     case 'ArrowDown':
                         case 'ArrowDown':
                             pokemon1.y +=20;
+                            break;
     }
 });
 
