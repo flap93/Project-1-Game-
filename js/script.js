@@ -21,6 +21,8 @@
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");
 
+let score = 0;
+
 const field = {
   x: 0,
   y: 0,
