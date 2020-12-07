@@ -1,29 +1,14 @@
-/*const canvas = document.getElementById('canvas');
-    const context = canvas.getContext('2d');
+const canvas = document.getElementById("canvas"); //get the canvas element from the DOM
+const context = canvas.getContext("2d"); 
 
-    context.clearRect(0, 0, 1000, 1000);
-    
-   // here were have to put the disc that when the game start , it should
-   //start bouncing on every direction
-   const disc = new image();
-   disc.src = './images/disc.png';
-   disc.addEventlistener('load', () => {
-       context.drawImage(disc, 10, 30, 100, 120);
-       
-   });
-   
+let score1 = 0;
+let score2 = 0;
 
-   x += 5;  // this moves the object from 0 to 5 pixels on the x 
-   y += 10;
+const SCORE_S = new Audio();
+SCORE_S.src = "audio/sfx_point.wav";
 
- setTimeout(() => startGame(x, y), 50)  // the number 50 are the miliseconds*/
 
-const canvas = document.getElementById("canvas");
-const context = canvas.getContext("2d");
-
-let score = 0;
-
-const field = {
+const field = {  // this is the variable of the background field , position and size
   x: 0,
   y: 0,
   width: canvas.width,
@@ -32,170 +17,173 @@ const field = {
 
 const fieldImg = new Image();
 fieldImg.src = "./images/GROUND1.png";
-//fieldImg.addEventListener('load', () => {
-//context.drawImage(fieldImg, field.x, field.y, field.width, field.height);
-//});
 
-const disc = {
-  x: 700,
-  y: 300,
-  dx: -5,
-  dy: -3,
-  radius: 10,
-  width: 90,
-  height: 90,
-};
+const ball = {
+  x : canvas.width/2,
+  y : canvas.height/2,
+  radius : 10,
+  velocityX : 5,
+  velocityY : 5,
+  speed : 7,
+  width:90,
+  height:90
+}
 
-const discImg = new Image();
-discImg.src = "./images/disc.png";
-//discImg.addEventListener('load', () => {
-// context.drawImage(discImg, disc.x, disc.y, disc.width, disc.height);
-//});
+  const ballImg = new Image();
+  ballImg.src = "./images/disc.png";
+  
 
-const pokemon1 = {
-  x: 400,
+const pokemon1 = {  // this is the variable of the grey pokemon on the left , position & size
+  x: 220,
   y: 250,
-  width: 120,
-  height: 120,
+  width: 100,
+  height: 100,
+  //score: 0
+  
 };
 
 const pokemonImg = new Image();
 pokemonImg.src = "./images/mewtwo.png";
-//pokemonImg.addEventListener('load', () => {
-//context.drawImage(pokemonImg, pokemon1.x, pokemon1.y, pokemon1.width, pokemon1.height);
-//});
 
-const pokemon2 = {
-  x: 1100,
-  y: 300,
-  width: 120,
-  height: 120,
+
+const pokemon2 = { // this is the variable of the red pokemon on the right , position & size
+  x : 1050,
+  y : 300,
+  width: 100,
+  height: 100,
+  //score: 0
+  
 };
 
 const pkmonImg = new Image();
 pkmonImg.src = "./images/groundon.png";
-//pkmonImg.addEventListener('load', () => {
-//context.drawImage(pkmonImg, pokemon2.x, pokemon2.y, pokemon2.width, pokemon2.height);
-//});
 
-// create some animation
 
-const drawEverything = () => {
-  context.drawImage(fieldImg, field.x, field.y, field.width, field.height);
-  context.drawImage(
-    pokemonImg,
-    pokemon1.x,
-    pokemon1.y,
-    pokemon1.width,
-    pokemon1.height
-  );
-  context.drawImage(
-    pkmonImg,
-    pokemon2.x,
-    pokemon2.y,
-    pokemon2.width,
-    pokemon2.height
-  );
-  context.drawImage(discImg, disc.x, disc.y, disc.width, disc.height);
-};
 
-const drawingloop = () => {
-  context.clearRect(0, 0, canvas.width, canvas.height);
 
-  drawEverything();
+  const drawScores = () => { // setting up the variable scores 
+    context.fillStyle='black';
+    context.font='bolder 30px Arial';
+    context.fillText(`Score: ${score1}`, 170, 40); // position of the score and adding parameter of the variable
 
-  disc.x += disc.dx;
-  disc.y += disc.dy;
-  if (disc.x < 0) {
-    disc.dx = -disc.dx;
-  }
-  if (disc.x >= canvas.width - disc.width) {
-    disc.dx = -disc.dx;
-  }
-  if (disc.x <= canvas.width + disc.width) {
-    disc.dx = +disc.dx;
-  }
+    context.fillStyle='black';
+    context.font='bolder 30px Arial';
+    context.fillText(`Score: ${score2}`, 1030, 40);
 
-  if (disc.y < 0) {
-    disc.dy = -disc.dy;
-  }
-  if (disc.y >= canvas.height - disc.height) {
-    disc.dy = -disc.dy;
-  }
+    }
 
-  const collision = collisionDetection(disc, pokemon1);
-  console.log(collision);
+    
 
-  //collisionDetection(disc, pokemon1);
 
-  // console.log('disc');
-  // console.log('pokemon1');
+canvas.addEventListener("mousemove", getMousePos);
 
-  requestAnimationFrame(drawingloop);
-};
-
-function collisionDetection(disc, pokemon1) {
-  let distX = Math.abs(disc.x - pokemon1.x - pokemon1.width / 2);
-
-  let distY = Math.abs(disc.y - pokemon1.y - pokemon1.height / 2);
-  if (distX > pokemon1.width / 2 + disc.radius) {
-    return false;
-  }
-  // console.log(pokemon1.width/2, disc.radius);
-
-  if (distY > pokemon1.height / 2 + disc.radius) {
-    return false;
-  }
-
-  if (distX <= pokemon1.width / 2) {
-    return true;
-  }
-  if (distY <= pokemon1.height / 2) {
-    return true;
-  }
-
-  let dx = distX - pokemon1.width / 2;
-  let dy = distY - pokemon1.height / 2;
-  return dx * dx + dy * dy <= disc.radius * disc.radius;
+function getMousePos(evt){
+    let rect = canvas.getBoundingClientRect();
+    
+    pokemon1.y = evt.clientY - rect.top - pokemon1.height/2;
 }
 
-// movement of one player
+function resetBall() {
+    ball.x = canvas.width/2;
+    ball.y = canvas.height/2;
+    ball.velocityX = -ball.velocityX;
+    ball.speed = 7;
 
-document.addEventListener("keydown", (event) => {
-  console.log(event.code);
-  switch (event.code) {
-    case "KeyA":
-      if (pokemon1.x >= 15) pokemon1.x -= 20;
-      break;
-    case "KeyD":
-      if (pokemon1.x <= 1400 - 120) pokemon1.x += 20;
-      break;
-    case "KeyW":
-      if (pokemon1.y > 20) pokemon1.y -= 20;
-      break;
-    case "KeyS":
-      pokemon1.y += 20;
-      if (pokemon1.y < 20) pokemon1.y += 20;
-      break;
   }
-});
 
-document.addEventListener("keydown", (event) => {
-  console.log(event.code);
-  switch (event.code) {
-    case "ArrowLeft":
-      if (pokemon2.x >= 15) pokemon2.x -= 20;
-      break;
-    case "ArrowRight":
-      if (pokemon2.x <= 1400 - 120) pokemon2.x += 20;
-      break;
-    case "ArrowUp":
-      pokemon2.y -= 20;
-      break;
-    case "ArrowDown":
-      pokemon2.y += 20;
-      break;
-  }
-});
+ 
+ 
 
-drawingloop();
+
+
+function render() {
+
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  
+  
+ 
+
+  context.drawImage(fieldImg, field.x, field.y, field.width, field.height); // this is for the background images(the court)
+  
+  context.drawImage(pokemonImg, pokemon1.x, pokemon1.y, pokemon1.width, pokemon1.height); // this is for the grey pokemon (left pokemon)
+  
+  context.drawImage(pkmonImg, pokemon2.x, pokemon2.y, pokemon2.width, pokemon2.height); // this is for the red pokemon (right pokemon)
+  
+  context.drawImage(ballImg, ball.x, ball.y, ball.width, ball.height); // this is for the disc (pokeball)
+
+  
+
+}
+
+function collision(b,p){
+  p.top = p.y;
+  p.bottom = p.y + p.height;
+  p.left = p.x;
+  p.right = p.x + p.width;
+  
+  b.top = b.y - b.radius;
+  b.bottom = b.y + b.radius;
+  b.left = b.x - b.radius;
+  b.right = b.x + b.radius;
+  
+  return p.left < b.right && p.top < b.bottom && p.right > b.left && p.bottom > b.top;
+}
+
+
+
+function update() {
+
+ ball.x += ball.velocityX;
+  ball.y += ball.velocityY;
+
+  pokemon2.y += ((ball.y - (pokemon2.y + pokemon2.height/2)))*0.1;
+
+  if(ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height){
+    ball.velocityY = -ball.velocityY;
+    //wall.play();
+}
+
+let player = (ball.x + ball.radius < canvas.width/2) ? pokemon1 : pokemon2;
+
+ if(collision(ball,player)){
+
+  let collidePoint = (ball.y - (player.y + player.height/2));
+  collidePoint = collidePoint / (player.height/2);
+  let angleRad = (Math.PI/4) * collidePoint;
+  let direction = (ball.x + ball.radius < canvas.width/2) ? 1 : -1;
+        ball.velocityX = direction * ball.speed * Math.cos(angleRad);
+        ball.velocityY = ball.speed * Math.sin(angleRad);
+        ball.speed += 0.5;
+
+   }
+
+ 
+ if( ball.x - ball.radius < 0 ){
+    score2++;
+    SCORE_S.play();
+    resetBall();
+}else if( ball.x + ball.radius > canvas.width){
+    score1++;
+    SCORE_S.play();
+    resetBall();
+}
+
+  
+
+
+}
+ 
+
+function game() {
+  update();
+  render();
+  drawScores();
+  
+}
+
+
+// number of frames per second
+let framePerSecond = 50;
+
+//call the game function 50 times every 1 Sec
+let loop = setInterval(game,1000/framePerSecond);
