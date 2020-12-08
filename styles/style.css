@@ -1,7 +1,29 @@
 body {
     padding: 0;
     text-align: center;
-    background-color: black;a
+    background-color: black;
+  }
+
+  #steps h1{
+    //margin: 0%;
+    font-size: 30px;
+    text-align: center;
+    color: white;
+    font-weight: ;    
+    //padding-bottom: ;
+
+
+  }
+
+  #steps p{
+    //margin: 0%;
+    font-size: 25px;
+    text-align: center;
+    color: white;
+    font-weight: ;    
+    //padding-bottom: ;
+
+
   }
 
   .game-intro {

@@ -25,9 +25,9 @@ const ball = {
   x : canvas.width/2,
   y : canvas.height/2,
   radius : 10,
-  velocityX : 5,
-  velocityY : 5,
-  speed : 7,
+  velocityX : 9,
+  velocityY : 9,
+  speed : 9,
   width:90,
   height:90
 }
@@ -176,7 +176,7 @@ let player = (ball.x + ball.radius < canvas.width/2) ? pokemon1 : pokemon2;
         ball.velocityX = direction * ball.speed * Math.cos(angleRad);
         ball.velocityY = ball.speed * Math.sin(angleRad);
         // speed up the ball everytime a paddle hits it.
-        ball.speed += 0.5;
+        ball.speed += 0.80;
 
    }
 
